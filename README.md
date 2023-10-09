@@ -1,2 +1,2 @@
 # LinkedMario
-LinkedMario: A Journey through Nodes
+LinkedMario: A Journey through Nodes.
