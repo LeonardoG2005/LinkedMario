@@ -9,7 +9,7 @@ class MatrixLinkedList:
 
     def build_matrix(self):
 
-        # Primero se crean las LinkedLists que represetan las filas...
+        # Primero se crean las LinkedLists que representan las filas...
         self.head = Node(None)
         current = self.head
 
@@ -25,7 +25,7 @@ class MatrixLinkedList:
 
         for i in range(self.rows - 1):
           for j in range (self.cols):
-            up_position = j + 1 + (self.cols)*i
+            up_position = j + (self.cols)*i
 
             up_node = self.get_node_col(up_position)
             
@@ -37,7 +37,7 @@ class MatrixLinkedList:
     def get_node_col (self, col):
 
         current = self.head
-        for _ in range(col-1):
+        for _ in range(col):
             current = current.next
 
         return current
@@ -70,8 +70,12 @@ class MatrixLinkedList:
     def set_value(self, row, col, value):
 
         node = self.get_node(row, col)
-        if node:
+        if node and node.value==None: #puede que lo dañe
             node.value = value
+            return True
+        else:
+            print(f"No es posible borrar porque ya se encuentra {node.value} en esa posición")
+            return False
 
     def get_node_by_value(self, target_value):
 

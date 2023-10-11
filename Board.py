@@ -11,17 +11,22 @@ class Board:
   def initBoard(self, n):
       self.board = MatrixLinkedList(n, n)
 
-      self.board.set_value(0, n//2, "A")
-      self.board.set_value(n-1, n//2, "B")
+      self.board.set_value(0, n//2, "X")
+      self.board.set_value(n-1, n//2, "Y")
 
-      self.board.print_matrix()
+      #self.board.print_matrix()
       print()
 
   def reset(self):
       self.initBoard()
 
   def DeleteSquare(self, row, col):
-      self.board.set_value(row, col, "#")
+      if row < 0 or row >= self.rows or col <0 or col >= self.cols:
+         print("La posición ingresada no existe")
+         return False
+      elif self.board.set_value(row, col, "#") == True:
+           return True
+      return False
 
   def PrintBoard(self):
       self.board.print_matrix()
@@ -38,12 +43,13 @@ class Board:
         node.value = None
 
       else:
-        print("grave...")
+        print("grave... Movimiento Invalido")
         print()
-        return;
+        return False; 
 
-      if (player == "A" and row == self.rows - 1) or (player == "B" and row == 0):
+      if (player == "X" and row == self.rows - 1) or (player == "Y" and row == 0):
         self.winner = player
+      return True #creo que puede funcionar
 
   def MoveDirection(self, piece, row, col):
       target_node = self.board.get_node(row, col)

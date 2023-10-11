@@ -3,8 +3,8 @@ from Node import Node
 class UserMenu:
 
     def __init__(self, board):
-        self.board = board
-        self.current_player = "A"
+        self.board = Board(board)
+        self.current_player = "X"
 
     def start(self):
         while not self.board.winner:
@@ -13,31 +13,37 @@ class UserMenu:
             choice = input("¿Qué deseas hacer? (Mover[M] o Eliminar[E]): ").strip().lower()
 
             if choice == "m":
-                self.move_piece()
+                if self.move_piece():
+                    self.switch_player()
+                else:
+                    print(f"Jugador {self.current_player} Repite turno")
             elif choice == "e":
-                self.delete_square()
+                if self.delete_square():
+                    self.switch_player()
+                else:
+                    print(f"Jugador {self.current_player} Repite turno")
             else:
-                print("Opción no válida. Inténtalo de nuevo.")
+                print(f"Opción no válida. Inténtalo de nuevo. Jugador {self.current_player} Repite turno")
 
-            self.switch_player()
+            #self.switch_player()
 
         self.display_winner()
 
     def move_piece(self):
         row = int(input("Ingresa la fila: "))
         col = int(input("Ingresa la columna: "))
-        self.board._move(self.current_player, row, col)
+        return self.board._move(self.current_player, row, col)
 
     def delete_square(self):
         row = int(input("Ingresa la fila a eliminar: "))
         col = int(input("Ingresa la columna a eliminar: "))
-        self.board.DeleteSquare(row, col)
+        return self.board.DeleteSquare(row, col)
 
     def switch_player(self):
-        if self.current_player == "A":
-            self.current_player = "B"
+        if self.current_player == "X":
+            self.current_player = "Y"
         else:
-            self.current_player = "A"
+            self.current_player = "X"
 
     def display_board(self):
         print("Tablero actual:")
@@ -45,3 +51,4 @@ class UserMenu:
 
     def display_winner(self):
         print(f"¡Jugador {self.board.winner} ha ganado!")
+        self.display_board()
