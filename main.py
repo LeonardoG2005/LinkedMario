@@ -1,7 +1,11 @@
-from UserMenu import UserMenu
+from board import Board
+from Menu import UserMenu
 
 def main():
-    Menu = UserMenu(5)
+
+    board = Board(5)
+    Menu = UserMenu(board)
     Menu.start()
 
-main()
+if __name__ == "__main__":
+    main()

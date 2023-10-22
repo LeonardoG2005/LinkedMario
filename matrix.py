@@ -1,6 +1,16 @@
-from Node import Node
+from node import Node
+import copy
 
 class MatrixLinkedList:
+
+    def __deepcopy__(self, memo):
+        if id(self) in memo:
+            return memo[id(self)]
+        new_matrix = MatrixLinkedList(self.rows, self.cols)
+        memo[id(self)] = new_matrix
+        new_matrix.head = copy.deepcopy(self.head, memo)
+        return new_matrix
+
     def __init__(self, rows, cols):
         self.rows = rows
         self.cols = cols
@@ -10,6 +20,7 @@ class MatrixLinkedList:
     def build_matrix(self):
 
         # Primero se crean las LinkedLists que representan las filas...
+
         self.head = Node(None)
         current = self.head
 
@@ -24,20 +35,22 @@ class MatrixLinkedList:
         #Ahora se hacen los enlaces up y down...
 
         for i in range(self.rows - 1):
+            
           for j in range (self.cols):
-            up_position = j + (self.cols)*i
+            up_position = j + 1 + (self.cols)*i
 
             up_node = self.get_node_col(up_position)
-            
+
             down_node = self.get_node_col(up_position + self.cols)
 
             up_node.down = down_node
             down_node.up = up_node
 
-    def get_node_col (self, col):
+
+    def get_node_col(self, col):
 
         current = self.head
-        for _ in range(col):
+        for _ in range(col-1):
             current = current.next
 
         return current
@@ -70,21 +83,23 @@ class MatrixLinkedList:
     def set_value(self, row, col, value):
 
         node = self.get_node(row, col)
-        if node and node.value==None: #puede que lo dañe
+        if node:
             node.value = value
-            return True
-        else:
-            print(f"No es posible borrar porque ya se encuentra {node.value} en esa posición")
-            return False
 
     def get_node_by_value(self, target_value):
 
-        current = self.head
+        FirstInRow = self.head
 
-        while current:
+        for i in range (self.rows):
+
+          current = FirstInRow
+
+          for j in range (self.cols):
             if current.value == target_value:
                 return current
             current = current.next
+
+          FirstInRow = FirstInRow.down
 
         return None
 
@@ -96,9 +111,9 @@ class MatrixLinkedList:
 
             for _ in range(self.cols):
                 if current.value:
-                  row_values.append(" "+str(current.value))
+                  row_values.append(""+str(current.value))
                 else:
-                  row_values.append(" "+str(0))
+                  row_values.append(" □")
                 current = current.next
-
+            print("")
             print(" ".join(row_values))
