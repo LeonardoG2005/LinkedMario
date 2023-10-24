@@ -136,9 +136,10 @@ class Board:
       #print(self.verifyPathUp(player2))
       #print(self.verifyPathDown(player1))
 
+      
+      result = self.verifyPathUp(player2) and self.verifyPathDown(player1)
       del Auxboard.head
       del Auxboard
-      result = self.verifyPathUp(player2) and self.verifyPathDown(player1)
       return result
 
   def verifyPathUp(self, node, l = []):

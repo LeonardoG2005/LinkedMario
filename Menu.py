@@ -1,5 +1,5 @@
 from constants import Player1, Player2
-from colorama import init, Fore, Style
+
 
 class UserMenu:
 
@@ -14,8 +14,8 @@ class UserMenu:
             while not valid:
                 self.display_board()
                 print(f"\nTurno del Jugador {self.current_player}")
-                init(autoreset=True)
-                choice = input(Fore.WHITE + Style.BRIGHT + "\n¿Qué deseas hacer? (Mover[M] o Eliminar[E]): ").strip().lower()
+                
+                choice = input("\n¿Qué deseas hacer? (Mover[M] o Eliminar[E]): ").strip().lower()
 
                 if choice == "m":
                     turn = self.move_piece()
